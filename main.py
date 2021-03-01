@@ -9,15 +9,22 @@ def get_monster():
     return monster
 
 def get_base_item(treasure_class):
-    treasures = pd.read_csv("data/TreasureClassEx.txt", delimiter="\t")
-    treasures.columns = ["treasureclass", "item1", "item2", "item3"]
-    treasure = treasures.loc[treasures["treasureclass"] == treasure_class]
-    item = treasure.iloc[:,(random.randint(1,3))]
+    item = get_treasure(treasure_class)
     print(item)
+    # is_item = False
+    #
+    # while not is_item:
+    #     item = get_treasure(treasure_class)
+    #     print("ITEM:", item)
+    #     print("PREFIX:", item[:2])
+    #     is_item = True
 
 
-
-
+def get_treasure(treasure_class):
+    treasures = pd.read_csv("data/TreasureClassEx.txt", delimiter="\t")
+    treasure = treasures.loc[treasures['Treasure Class'] == treasure_class]
+    item = treasure.iloc[:, (random.randint(1, 3))]
+    return(item.values[0])
 
 
 if __name__ == '__main__':
