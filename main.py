@@ -8,7 +8,7 @@ def get_monster():
     monster = monsters.iloc[random.randint(0, (rows-1))]
     return monster
 
-def get_base_item(treasure_class):
+def get_base_armor(treasure_class):
     is_item = False
 
     while not is_item:
@@ -21,10 +21,14 @@ def get_base_item(treasure_class):
             is_item = True
             return item
 
-def get_item_stats(base_item):
-    armor_stats = pd.read_csv("data/armor.txt", delimiter="\t")
-
-
+def get_armor_stats(base_item):
+    armor = pd.read_csv("data/armor.txt", delimiter="\t")
+    armor.columns = ["name", "minac", "maxac"]
+    base = armor.loc[armor['name'] == base_item]
+    print("MINAC", base['minac'].values[0])
+    print("MAXAC", base['maxac'].values[0])
+    stats = random.randint(base['minac'].values[0], base['maxac'].values[0])
+    return stats
 
 def get_treasure(treasure_class):
     treasures = pd.read_csv("data/TreasureClassEx.txt", delimiter="\t")
@@ -39,9 +43,10 @@ if __name__ == '__main__':
     monster = get_monster()
     print("You have slain a ", monster["class"])
     print("TREASURE CLASS:", monster["treasureclass"])
-    base_item = get_base_item(monster["treasureclass"])
+    base_item = get_base_armor(monster["treasureclass"])
     print("BASE ITEM: ", base_item)
-    item_stats = get_item_stats(base_item)
+    item_stats = get_armor_stats(base_item)
+    print ("DEFENSE:", item_stats)
 
 
 
