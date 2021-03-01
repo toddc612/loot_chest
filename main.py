@@ -11,9 +11,12 @@ def get_base_item(treasure_class):
     # item = get_treasure(treasure_class)
     # print(item)
 
+    print ("STARTING TREASURE CLASS: ", treasure_class)
+
     is_item = False
 
     while not is_item:
+        print("-->> LOOKING UP: ", treasure_class)
         item = get_treasure(treasure_class)
 
         print("ITEM:", item)
@@ -29,6 +32,12 @@ def get_base_item(treasure_class):
 
         if item[:2] == 'tc':
             print("MATCHED!\n\n\n")
+            treasure_class = item
+            continue
+        else:
+            print("GOT AN OBJECT:", item)
+            is_item = True
+
 
 
 
