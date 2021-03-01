@@ -1,21 +1,17 @@
 import pandas as pd
 import random
 
-def intro(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print("Hi, {0}".format(name))  # Press ⌘F8 to toggle the breakpoint.
-
 def get_monster():
     monsters = pd.read_csv("data/monstats.txt", delimiter="\t")
     monsters.columns = ["class", "type", "level", "treasureclass"]
-    rows = monsters["class"].count()
+    rows = monsters.shape[0]
+    monster = monsters.iloc[random.randint(0, (rows-1))]
+    print(monster)
 
-    # print(monsters.iloc[1])
-    print(monsters["class"].count())
 
 
 if __name__ == '__main__':
-    intro('PyCharm')
+    print('\n--->> Loot Chest v1.0 <<---\n')
     get_monster()
 
 
