@@ -12,7 +12,11 @@ def get_base_item(treasure_class):
     treasures = pd.read_csv("data/TreasureClassEx.txt", delimiter="\t")
     treasures.columns = ["treasureclass", "item1", "item2", "item3"]
     treasure = treasures.loc[treasures["treasureclass"] == treasure_class]
-    print(treasure)
+    item = treasure.iloc[:,(random.randint(1,3))]
+    print(item)
+
+
+
 
 
 
