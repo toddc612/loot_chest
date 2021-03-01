@@ -21,12 +21,21 @@ def get_base_armor(treasure_class):
             is_item = True
             return item
 
-def get_armor_stats(base_item):
+def get_armor_suffix():
+    suffixes = pd.read_csv("data/MagicSuffix.txt", delimiter="\t")
+    suffixes.columns = ["name", "mod1code",	"mod1min", "mod1max"]
+    rows = suffixes.shape[0]
+    suffix = suffixes.iloc[random.randint(0, (rows - 1))]
+    print("SUFFIX:", suffix)
+    return suffix
+
+
+
+
+def get_armor_defense(base_item):
     armor = pd.read_csv("data/armor.txt", delimiter="\t")
     armor.columns = ["name", "minac", "maxac"]
     base = armor.loc[armor['name'] == base_item]
-    print("MINAC", base['minac'].values[0])
-    print("MAXAC", base['maxac'].values[0])
     stats = random.randint(base['minac'].values[0], base['maxac'].values[0])
     return stats
 
@@ -45,8 +54,9 @@ if __name__ == '__main__':
     print("TREASURE CLASS:", monster["treasureclass"])
     base_item = get_base_armor(monster["treasureclass"])
     print("BASE ITEM: ", base_item)
-    item_stats = get_armor_stats(base_item)
-    print ("DEFENSE:", item_stats)
+    defense = get_armor_defense(base_item)
+    print ("DEFENSE:", defense)
+    suffix = get_armor_suffix()
 
 
 
