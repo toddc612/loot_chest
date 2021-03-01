@@ -8,13 +8,14 @@ def intro(name):
 def get_monster():
     monsters = pd.read_csv("data/monstats.txt", delimiter="\t")
     monsters.columns = ["class", "type", "level", "treasureclass"]
-    print(monsters.iloc[1])
+    rows = monsters["class"].count()
 
-# Press the green button in the gutter to run the script.
+    # print(monsters.iloc[1])
+    print(monsters["class"].count())
+
+
 if __name__ == '__main__':
     intro('PyCharm')
     get_monster()
 
 
-# monsters = pd.read_csv("data/monstats.txt", delimiter="\t")
-# print(monsters.iloc[1])
