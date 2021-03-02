@@ -1,6 +1,7 @@
 import pandas as pd
 import random
 
+
 def get_monster():
     monsters = pd.read_csv("data/monstats.txt", delimiter="\t")
     monsters.columns = ["class", "type", "level", "treasureclass"]
@@ -21,23 +22,30 @@ def get_base_armor(treasure_class):
             is_item = True
             return item
 
+def get_armor_prefix():
+    prefixes = pd.read_csv("data/MagicPrefix.txt", delimiter="\t")
+    prefixes.columns = ["name", "mod1code",	"mod1min", "mod1max"]
+    rows = prefixes.shape[0]
+    prefix = prefixes.iloc[random.randint(0, (rows - 1))]
+    stat = random.randint(int(prefix["mod1min"]), int(prefix["mod1max"]))
+    prefix_stat = prefix["mod1code"] + " +" + str(stat)
+    return (prefix["name"], prefix_stat)
+
 def get_armor_suffix():
     suffixes = pd.read_csv("data/MagicSuffix.txt", delimiter="\t")
     suffixes.columns = ["name", "mod1code",	"mod1min", "mod1max"]
     rows = suffixes.shape[0]
     suffix = suffixes.iloc[random.randint(0, (rows - 1))]
-    print("SUFFIX:", suffix)
-    return suffix
-
-
-
+    stat = random.randint(int(suffix["mod1min"]), int(suffix["mod1max"]))
+    suffix_stat = suffix["mod1code"] + " +" + str(stat)
+    return (suffix["name"], suffix_stat)
 
 def get_armor_defense(base_item):
     armor = pd.read_csv("data/armor.txt", delimiter="\t")
     armor.columns = ["name", "minac", "maxac"]
     base = armor.loc[armor['name'] == base_item]
-    stats = random.randint(base['minac'].values[0], base['maxac'].values[0])
-    return stats
+    stat = random.randint(base['minac'].values[0], base['maxac'].values[0])
+    return stat
 
 def get_treasure(treasure_class):
     treasures = pd.read_csv("data/TreasureClassEx.txt", delimiter="\t")
@@ -48,15 +56,18 @@ def get_treasure(treasure_class):
 
 
 if __name__ == '__main__':
-    print('\n--->> Loot Chest v1.0 <<---\n')
     monster = get_monster()
-    print("You have slain a ", monster["class"])
-    print("TREASURE CLASS:", monster["treasureclass"])
     base_item = get_base_armor(monster["treasureclass"])
-    print("BASE ITEM: ", base_item)
     defense = get_armor_defense(base_item)
-    print ("DEFENSE:", defense)
-    suffix = get_armor_suffix()
+    (prefix, prefix_stat) = get_armor_prefix()
+    (suffix, suffix_stat) = get_armor_suffix()
+
+    print('\n--->> Loot Chest v1.0 <<---\n')
+    print("You have slain a ", monster["class"])
+    print(prefix + " " + base_item + " " + suffix)
+    print ("Defense:", defense)
+    print(prefix_stat)
+    print(suffix_stat)
 
 
 
